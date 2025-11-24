@@ -21,19 +21,34 @@ const getBody = (req, callback) => {
 };
 
 // here, you could declare one or more variables to store what comes back from the form.
-let item = "Enter something below.";
+// let item = "Enter something below.";
+// my favorite color:
+let favoriteColor = "aquamarine";
+let message = "Change to my favorite color";
 
 // here, you can change the form below to modify the input fields and what is displayed.
 // This is just ordinary html with string interpolation.
 const form = () => {
   return `
-  <body>
-  <p>${item}</p>
-  <form method="POST">
-  <input name="item"></input>
-  <button type="submit">Submit</button>
-  </form>
-  </body>
+
+  <html>
+    <head>
+      <title>Favorite color</title>
+    </head>
+    <body style="background-color: ${favoriteColor}; font-family: Arial, sans-serif;">
+      <h1>${message}</h1>
+      <form method="POST">
+        <label for="color">Pick a color:</label>
+        <select id="color" name="color">
+          <option value="white">White</option>
+          <option value="lightyellow">Yellow</option>
+          <option value="lightblue">Blue</option>
+          <option value="pink">Pink</option>
+        </select>
+        <button type="submit">Save</button>
+      </form>
+    </body>
+  </html>
   `;
 };
 
@@ -44,11 +59,19 @@ const server = http.createServer((req, res) => {
     getBody(req, (body) => {
       console.log("The body of the post is ", body);
       // here, you can add your own logic
-      if (body["item"]) {
-        item = body["item"];
+      // if (body["item"]) {
+      //   item = body["item"];
+      // } else {
+      //   item = "Nothing was entered.";
+      // }
+
+      if (body["color"]) {
+        favoriteColor = body["color"];
+        message = `Favorite color is: ${favoriteColor}`;
       } else {
-        item = "Nothing was entered.";
+        message = "You didn't choose a color";
       }
+
       // Your code changes would end here
       res.writeHead(303, {
         Location: "/",
