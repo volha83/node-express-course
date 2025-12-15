@@ -23,7 +23,7 @@ app.get("/api/v1/products/:productID", (req, res) => {
 });
 
 app.get("/api/v1/query", (req, res) => {
-  const { search, limit, maxPrice } = rec.query;
+  const { search, limit, maxPrice } = req.query;
   let filProducts = [...products];
 
   if (search) {
@@ -32,14 +32,14 @@ app.get("/api/v1/query", (req, res) => {
     );
   }
 
-  if (limit) {
-    const limitNumber = parseInt(limit);
-    filProducts = filProducts.slice(0, limitNumber);
-  }
-
   if (maxPrice) {
     const max = parseFloat(maxPrice);
     filProducts = filProducts.filter((product) => product.price < max);
+  }
+
+  if (limit) {
+    const limitNumber = parseInt(limit);
+    filProducts = filProducts.slice(0, limitNumber);
   }
 
   res.json(filProducts);
