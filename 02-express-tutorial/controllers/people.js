@@ -36,7 +36,9 @@ const updatePerson = (req, res) => {
   }
 
   if (!req.body.name) {
-    return res.status(400).json({ success: false, message: "Enter a name" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Please provide a name" });
   }
   person.name = req.body.name;
   return res.status(200).json({ success: true, person });
